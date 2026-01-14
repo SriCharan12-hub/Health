@@ -4,10 +4,11 @@ import { Header } from '../components/Header';
 import { StatCard } from '../components/StatCard';
 import { PatientTable } from '../components/PatientTable';
 import { setLoading } from '../features/dashboard/dashboardSlice';
-import { PersonIcon, CalendarIcon, HomeIcon, BackpackIcon, PlusIcon } from '@radix-ui/react-icons';
+import { PersonIcon, CalendarIcon, HomeIcon, BackpackIcon } from '@radix-ui/react-icons';
 import { Grid, Box, Heading, Text, Flex, Button, Dialog, TextField, Card } from '@radix-ui/themes';
 
 function HomePage() {
+
   const user = useAppSelector((state) => state.auth.user);
   const { stats, patients, loading } = useAppSelector((state) => state.dashboard);
   const dispatch = useAppDispatch();
@@ -21,9 +22,9 @@ function HomePage() {
   }, [dispatch]);
 
   return (
+
     <Box className="min-h-screen">
       <Header />
-
       <Box className="max-w-7xl mx-auto px-6 py-8">
         {/* Welcome Section & Action */}
         <Flex justify="between" align="center" mb="6" className="animate-fade-in-up">
@@ -33,41 +34,6 @@ function HomePage() {
               Welcome back, <Text weight="bold" color="gray">{user?.email || 'Dr. Smith'}</Text>. Here's your system at a glance.
             </Text>
           </Box>
-          
-          <Dialog.Root>
-            {/* <Dialog.Trigger>
-              <Button size="3" variant="solid" color="indigo" className="cursor-pointer shadow-lg hover:shadow-indigo-500/20 transition-all active:scale-95">
-                <PlusIcon /> New Appointment
-              </Button>
-            </Dialog.Trigger> */}
-
-            <Dialog.Content maxWidth="450px">
-              <Dialog.Title>Book Appointment</Dialog.Title>
-              <Dialog.Description size="2" mb="4">
-                Schedule a new appointment for a patient.
-              </Dialog.Description>
-
-              <Flex direction="column" gap="3">
-                <label>
-                  <Text as="div" size="2" mb="1" weight="bold">Patient Name</Text>
-                  <TextField.Root placeholder="Enter patient name" />
-                </label>
-                <label>
-                  <Text as="div" size="2" mb="1" weight="bold">Date</Text>
-                  <TextField.Root placeholder="YYYY-MM-DD" />
-                </label>
-              </Flex>
-
-              <Flex gap="3" mt="4" justify="end">
-                <Dialog.Close>
-                  <Button variant="soft" color="gray" className="cursor-pointer">Cancel</Button>
-                </Dialog.Close>
-                <Dialog.Close>
-                  <Button onClick={() => alert("Appointment Created!")} className="cursor-pointer">Save</Button>
-                </Dialog.Close>
-              </Flex>
-            </Dialog.Content>
-          </Dialog.Root>
         </Flex>
 
         {/* Stats Grid */}

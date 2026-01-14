@@ -40,14 +40,11 @@ const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState,
   reducers: {
-    updateStat: (state, action: PayloadAction<{ key: keyof DashboardStats; value: number }>) => {
-      state.stats[action.payload.key] = action.payload.value;
-    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
   },
 });
 
-export const { updateStat, setLoading } = dashboardSlice.actions;
+export const { setLoading } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

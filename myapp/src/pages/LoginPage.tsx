@@ -4,7 +4,8 @@ import { loginUser, clearError } from '../features/auth/authSlice';
 import { EnvelopeClosedIcon, LockClosedIcon, EyeOpenIcon, EyeNoneIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import LoadingSpinner from '../components/common/LoadingSpinner';
+import LoadingSpinner from '../components/animation/LoadingSpinner';
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -13,8 +14,8 @@ function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { status, error, isAuthenticated } = useAppSelector((state) => state.auth);
-
-  useEffect(() => {
+  
+    useEffect(() => {
     if (isAuthenticated) {
       toast.success('Welcome back!');
       navigate('/');
@@ -31,7 +32,6 @@ function LoginPage() {
       toast.error('Please fill in all fields');
       return;
     }
-
     dispatch(loginUser({ email, password }));
   };
 

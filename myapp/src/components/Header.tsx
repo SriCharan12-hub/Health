@@ -6,6 +6,7 @@ import { removeToken } from '../utils/auth';
 import { DropdownMenu, Button, Avatar, Flex, Text, Box, AlertDialog } from '@radix-ui/themes';
 import { useTheme } from "../context/ThemeContext";
 
+
 export function Header() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);

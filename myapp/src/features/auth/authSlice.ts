@@ -14,7 +14,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   user: getToken() ? { email: 'admin@healthcare.com' } : null,
-  isAuthenticated: !!getToken(),
+  isAuthenticated:!!getToken(),
   status: 'idle',
   error: null,
 };
