@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ExitIcon } from '@radix-ui/react-icons';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { logout } from '../features/auth/authSlice';
@@ -7,6 +8,7 @@ import { DropdownMenu, Button, Avatar, Flex, Text, Box, AlertDialog } from '@rad
 export function Header() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const handleLogout = () => {
     removeToken();
@@ -14,7 +16,7 @@ export function Header() {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-xs">
+    <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-xs backdrop-blur-md">
       {/* Brand */}
       <Flex align="center" gap="2">
         <div className="bg-blue-600 p-1.5 rounded-lg">
@@ -26,54 +28,60 @@ export function Header() {
       </Flex>
 
       {/* User Actions */}
-      <Box>
-        <AlertDialog.Root>
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger>
-              <Button variant="ghost" color="gray" className="cursor-pointer">
-                <Flex align="center" gap="2">
-                  <Avatar
-                    size="2"
-                    src=""
-                    fallback="DS"
-                    color="blue"
-                    radius="full"
-                  />
-                  <Text weight="medium">Dr. Smith</Text>
-                </Flex>
-              </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              <DropdownMenu.Label>{user?.email || 'Dr. Smith'}</DropdownMenu.Label>
-              <AlertDialog.Trigger>
-                <DropdownMenu.Item color="red" onSelect={(e) => e.preventDefault()}>
+      <Flex align="center" gap="4">
+      <Flex align="center" gap="4">
+        <Box>
+          <AlertDialog.Root open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger>
+                <Button variant="ghost" color="gray" className="cursor-pointer">
+                  <Flex align="center" gap="2">
+                    <Avatar
+                      size="2"
+                      src=""
+                      fallback="DS"
+                      color="blue"
+                      radius="full"
+                    />
+                    <Text weight="medium">Dr. Smith</Text>
+                  </Flex>
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content>
+                <DropdownMenu.Label>{user?.email || 'Dr. Smith'}</DropdownMenu.Label>
+                <DropdownMenu.Item 
+                  color="red" 
+                  className="cursor-pointer"
+                  onSelect={() => setShowLogoutDialog(true)}
+                >
                   <ExitIcon /> Log Out
                 </DropdownMenu.Item>
-              </AlertDialog.Trigger>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
 
-          <AlertDialog.Content maxWidth="450px">
-            <AlertDialog.Title>Confirm Logout</AlertDialog.Title>
-            <AlertDialog.Description size="2">
-              Are you sure you want to log out? You will be redirected to the login page.
-            </AlertDialog.Description>
+            <AlertDialog.Content maxWidth="450px">
+              <AlertDialog.Title>Confirm Logout</AlertDialog.Title>
+              <AlertDialog.Description size="2">
+                Are you sure you want to log out? You will be redirected to the login page.
+              </AlertDialog.Description>
 
-            <Flex gap="3" mt="4" justify="end">
-              <AlertDialog.Cancel>
-                <Button variant="soft" color="gray" className="cursor-pointer">
-                  Cancel
-                </Button>
-              </AlertDialog.Cancel>
-              <AlertDialog.Action>
-                <Button variant="solid" color="red" onClick={handleLogout} className="cursor-pointer">
-                  Log Out
-                </Button>
-              </AlertDialog.Action>
-            </Flex>
-          </AlertDialog.Content>
-        </AlertDialog.Root>
-      </Box>
+              <Flex gap="3" mt="4" justify="end">
+                <AlertDialog.Cancel>
+                  <Button variant="soft" color="gray" className="cursor-pointer">
+                    Cancel
+                  </Button>
+                </AlertDialog.Cancel>
+                <AlertDialog.Action>
+                  <Button variant="solid" color="red" onClick={handleLogout} className="cursor-pointer">
+                    Log Out
+                  </Button>
+                </AlertDialog.Action>
+              </Flex>
+            </AlertDialog.Content>
+          </AlertDialog.Root>
+        </Box>
+      </Flex>
+      </Flex>
     </header>
   );
 }

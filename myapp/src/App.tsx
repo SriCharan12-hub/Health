@@ -3,32 +3,37 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAppSelector } from './store/hooks';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import { Toaster } from 'react-hot-toast';
 import { Theme } from '@radix-ui/themes';
-
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
-}
+import '@radix-ui/themes/styles.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Toaster position="top-right" reverseOrder={false} />
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+    <Theme 
+      accentColor="indigo" 
+      radius="large" 
+      scaling="100%"
+    >
+      <div className="min-h-screen w-full bg-gray-50 text-gray-900">
+        <BrowserRouter>
+          <Toaster position="top-right" reverseOrder={false} />
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </Theme>
   );
 }
 
