@@ -52,7 +52,7 @@ export function Header() {
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
                 <Button variant="ghost" color="gray" className="cursor-pointer">
-                  <Flex align="center" gap="2">
+                  <Flex align="center" gap="2" className='hover:cursor-pointer'>
                     <Avatar
                       size="2"
                       src=""
@@ -68,10 +68,10 @@ export function Header() {
                 <DropdownMenu.Label>{user?.email || 'Dr. Smith'}</DropdownMenu.Label>
                 <DropdownMenu.Item 
                   color="red" 
-                  className="cursor-pointer"
                   onSelect={() => setShowLogoutDialog(true)}
                 >
-                  <ExitIcon /> Log Out
+                  <ExitIcon />
+                  <button className="hover:cursor-pointer">Log Out</button>
                 </DropdownMenu.Item>
               </DropdownMenu.Content>
             </DropdownMenu.Root>
@@ -84,12 +84,12 @@ export function Header() {
 
               <Flex gap="3" mt="4" justify="end">
                 <AlertDialog.Cancel>
-                  <Button variant="soft" color="gray" className="cursor-pointer">
+                  <Button variant="soft" color="gray" className="hover:cursor-pointer">
                     Cancel
                   </Button>
                 </AlertDialog.Cancel>
                 <AlertDialog.Action>
-                  <Button variant="solid" color="red" onClick={handleLogout} className="cursor-pointer">
+                  <Button variant="solid" color="red" onClick={handleLogout} className="hover:cursor-pointer">
                     Log Out
                   </Button>
                 </AlertDialog.Action>

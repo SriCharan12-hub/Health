@@ -1,12 +1,10 @@
-import { useState } from 'react';
-import { useAppDispatch } from '../store/hooks';
-import { login } from '../features/auth/authSlice';
+import { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { loginUser, clearError } from '../features/auth/authSlice';
 import { EnvelopeClosedIcon, LockClosedIcon, EyeOpenIcon, EyeNoneIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import loginDoctors from '../assets/login-doctors.png';
-
-import { setToken } from '../utils/auth';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,22 +12,27 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { status, error, isAuthenticated } = useAppSelector((state) => state.auth);
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (isAuthenticated) {
+      toast.success('Welcome back!');
+      navigate('/');
+    }
+    if (error) {
+      toast.error(error);
+      dispatch(clearError());
+    }
+  }, [isAuthenticated, error, navigate, dispatch]);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
       toast.error('Please fill in all fields');
       return;
     }
 
-    if (email === 'admin@healthcare.com' && password === 'admin1') {
-      setToken('dummy-jwt-token'); // Set cookie
-      dispatch(login({ email }));
-      toast.success('Welcome back!');
-      navigate('/');
-    } else {
-      toast.error('Invalid credentials');
-    }
+    dispatch(loginUser({ email, password }));
   };
 
   return (
@@ -41,7 +44,7 @@ function LoginPage() {
       {/* Main Content */}
       <div className="z-10 w-full max-w-5xl px-4 transition-all duration-500 ease-out transform translate-y-0 opacity-100 animate-fade-in-up">
         {/* Logo */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-10 mt-4">
           <div className="flex items-center gap-2">
             <span className="text-3xl font-bold text-gray-800 tracking-tight">NexusCorp</span>
             <div className="p-1.5 bg-linear-to-tr from-blue-500 to-indigo-600 rounded-lg text-white transform rotate-12 shadow-lg">
@@ -59,7 +62,7 @@ function LoginPage() {
           {/* Image Section - Top on Mobile, Left on Desktop */}
           <div className="w-full lg:w-1/2 flex justify-center">
             <img 
-              src={loginDoctors} 
+              src="https://ik.imagekit.io/jpezrwaey/Screenshot%202026-01-14%20092424.png"
               alt="Medical Team" 
               className="max-w-[200px] sm:max-w-[250px] lg:max-w-full h-auto object-contain drop-shadow-md rounded-xl"
             />
@@ -115,11 +118,11 @@ function LoginPage() {
               </div>
               <div className="grid gap-2 pl-6">
                 <div className="flex items-center justify-between group p-2 bg-white/50 rounded-lg hover:bg-white transition-colors cursor-pointer border border-transparent hover:border-indigo-100">
-                  <span className="text-indigo-500 text-xs uppercase tracking-wider font-bold">Email</span>
+                  <span className="text-indigo-500 text-xs uppercase tracking-wider font-bold">Email:</span>
                   <code className="font-mono font-semibold text-indigo-700 select-all">admin@healthcare.com</code>
                 </div>
                 <div className="flex items-center justify-between group p-2 bg-white/50 rounded-lg hover:bg-white transition-colors cursor-pointer border border-transparent hover:border-indigo-100">
-                  <span className="text-indigo-500 text-xs uppercase tracking-wider font-bold">Password</span>
+                  <span className="text-indigo-500 text-xs uppercase tracking-wider font-bold">Password:</span>
                   <code className="font-mono font-semibold text-indigo-700 select-all">admin1</code>
                 </div>
               </div>
@@ -127,9 +130,17 @@ function LoginPage() {
 
             <button
               type="submit"
-              className="w-full bg-linear-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-bold hover:from-blue-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg shadow-blue-500/30 active:scale-95"
+              disabled={status === 'loading'}
+              className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:cursor-pointer text-white py-3 rounded-lg font-bold hover:from-blue-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg shadow-blue-500/30 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
             >
-              Sign In
+              {status === 'loading' ? (
+                <>
+                  <LoadingSpinner size="sm" color="text-white" className="mr-2" />
+                  Signing In...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </button>
           </form>
           </div>
