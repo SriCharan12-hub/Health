@@ -9,7 +9,9 @@ import App from './App'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider defaultTheme="dark">
+        <App />
+      </ThemeProvider>
     </Provider>
   </StrictMode>,
 )

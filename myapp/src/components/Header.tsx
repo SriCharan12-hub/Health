@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { logout } from '../features/auth/authSlice';
 import { removeToken } from '../utils/auth';
 import { DropdownMenu, Button, Avatar, Flex, Text, Box, AlertDialog } from '@radix-ui/themes';
+import { useTheme } from "../context/ThemeContext";
 
 export function Header() {
   const dispatch = useAppDispatch();
@@ -15,8 +16,10 @@ export function Header() {
     dispatch(logout());
   };
 
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-xs backdrop-blur-md">
+    <header className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-xs backdrop-blur-md transition-colors duration-200">
       {/* Brand */}
       <Flex align="center" gap="2">
         <div className="bg-blue-600 p-1.5 rounded-lg">
@@ -24,11 +27,25 @@ export function Header() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
         </div>
-        <Text size="5" weight="bold" className="text-gray-800 tracking-tight">Healthcare Admin</Text>
+        <Text size="5" weight="bold" className="text-gray-800 dark:text-white tracking-tight">Healthcare Admin</Text>
       </Flex>
 
+
+      
       {/* User Actions */}
       <Flex align="center" gap="4">
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            <span className="text-xl leading-none">{theme === "dark" ? "🌙" : "☀️"}</span>
+          </button>
+        </div>
+
+    
       <Flex align="center" gap="4">
         <Box>
           <AlertDialog.Root open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>

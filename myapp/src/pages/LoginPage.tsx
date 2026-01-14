@@ -4,6 +4,7 @@ import { login } from '../features/auth/authSlice';
 import { EnvelopeClosedIcon, LockClosedIcon, EyeOpenIcon, EyeNoneIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import loginDoctors from '../assets/login-doctors.png';
 
 import { setToken } from '../utils/auth';
 
@@ -38,7 +39,7 @@ function LoginPage() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-pink-300 opacity-30 blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
 
       {/* Main Content */}
-      <div className="z-10 w-full max-w-md px-4 transition-all duration-500 ease-out transform translate-y-0 opacity-100 animate-fade-in-up">
+      <div className="z-10 w-full max-w-5xl px-4 transition-all duration-500 ease-out transform translate-y-0 opacity-100 animate-fade-in-up">
         {/* Logo */}
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2">
@@ -54,9 +55,20 @@ function LoginPage() {
         </div>
 
         {/* Login Card */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/50">
-            <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">Welcome Back</h2>
-            <p className="text-center text-gray-500 mb-8 text-sm">Sign in to access your dashboard</p>
+        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/50 flex flex-col lg:flex-row items-center gap-8">
+          {/* Image Section - Top on Mobile, Left on Desktop */}
+          <div className="w-full lg:w-1/2 flex justify-center">
+            <img 
+              src={loginDoctors} 
+              alt="Medical Team" 
+              className="max-w-[200px] sm:max-w-[250px] lg:max-w-full h-auto object-contain drop-shadow-md rounded-xl"
+            />
+          </div>
+
+          {/* Form Section - Bottom on Mobile, Right on Desktop */}
+          <div className="w-full lg:w-1/2">
+            <h2 className="text-2xl font-bold text-center lg:text-left text-gray-800 mb-2">Welcome Back</h2>
+            <p className="text-center lg:text-left text-black mb-8 text-sm">Sign in to access your dashboard</p>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-4">
@@ -66,7 +78,7 @@ function LoginPage() {
                 </div>
                 <input
                   type="email"
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200"
+                  className="w-full text-black pl-10 pr-4 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200"
                   placeholder="Email Address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -79,7 +91,7 @@ function LoginPage() {
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200"
+                  className="w-full pl-10  text-black pr-12 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -120,10 +132,7 @@ function LoginPage() {
               Sign In
             </button>
           </form>
-
-          <p className="mt-8 text-center text-sm text-gray-600">
-            Don't have an account? <a href="#" className="text-blue-600 hover:text-blue-700 hover:underline font-bold transition-colors">Sign up</a>
-          </p>
+          </div>
         </div>
 
         <div className="mt-8 text-center text-xs text-gray-400">

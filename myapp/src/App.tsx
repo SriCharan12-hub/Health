@@ -4,19 +4,22 @@ import { useAppSelector } from './store/hooks';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import { useTheme } from './context/ThemeContext';
 import { Toaster } from 'react-hot-toast';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 
 function App() {
+  const { theme } = useTheme();
+
   return (
     <Theme 
       accentColor="indigo" 
       radius="large" 
       scaling="100%"
+      appearance={theme}
     >
-      <div className="min-h-screen w-full bg-gray-50 text-gray-900">
+      <div className="min-h-screen  bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors">
         <BrowserRouter>
           <Toaster position="top-right" reverseOrder={false} />
           <Routes>
@@ -25,7 +28,9 @@ function App() {
               path="/"
               element={
                 <ProtectedRoute>
-                  <HomePage />
+                  <div className='rounded-lg  bg-slate-100 dark:bg-slate-800 h-full'>
+                    <HomePage />
+                  </div>
                 </ProtectedRoute>
               }
             />

@@ -28,7 +28,7 @@ function HomePage() {
         {/* Welcome Section & Action */}
         <Flex justify="between" align="center" mb="6" className="animate-fade-in-up">
           <Box>
-            <Heading size="6" mb="2" className="text-black">Dashboard Overview</Heading>
+            <Heading size="6" mb="2" className="text-black dark:text-white">Dashboard Overview</Heading>
             <Text color="gray" size="2">
               Welcome back, <Text weight="bold" color="gray">{user?.email || 'Dr. Smith'}</Text>. Here's your system at a glance.
             </Text>
